@@ -14,9 +14,7 @@ use function file_exists;
  */
 class ConfigLoader
 {
-    /**
-     * Настройка данных в ENV
-     */
+    /** Настройка данных в ENV */
     public static function loadEnv(): void
     {
         $envPath = '.env';

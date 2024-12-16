@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Helper;
+namespace Sync\Helper;
 
 use JsonException;
 
@@ -12,10 +12,15 @@ use const JSON_THROW_ON_ERROR;
 
 class ValidatorWebHook
 {
-    /** @var string  */
+    /**
+     * @var string хук с amoCRM имеет в себе массив.
+     * В случае на входящие сообщения это ``message``
+     */
     protected const TYPE_WEBHOOK = 'message';
 
     /**
+     * Валидирует по заголовку который всегда отдает amoCRM и по типу событию которое указано в TYPE_WEBHOOK
+     *
      * @throws JsonException
      */
     public static function isValid(string $headers, array $webhook): bool

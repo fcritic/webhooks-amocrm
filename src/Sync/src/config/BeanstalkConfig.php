@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\config;
+namespace Sync\config;
 
 use Pheanstalk\Pheanstalk;
 use Psr\Container\ContainerExceptionInterface;
@@ -11,7 +11,15 @@ use Psr\Container\NotFoundExceptionInterface;
 
 class BeanstalkConfig
 {
+    /** @var Pheanstalk|null Коннект с сервером очередей */
     private ?Pheanstalk $connection;
+
+    /**
+     * Конфиг который создает коннект с сервером очередей.
+     * Параметры конфигурации получающие из контейнера зависимости
+     *
+     * @param ContainerInterface $container контейнер зависимостей
+     */
     public function __construct(ContainerInterface $container)
     {
         try {
@@ -25,6 +33,7 @@ class BeanstalkConfig
         }
     }
 
+    /** Коннект */
     public function getConnection(): ?Pheanstalk
     {
         return $this->connection;

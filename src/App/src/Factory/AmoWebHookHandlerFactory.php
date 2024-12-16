@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Factory;
 
-use App\Console\Producer\WebhookQueueProducer;
 use App\Handler\AmoWebHookHandler;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
+use Sync\Console\Producer\WebhookQueueProducer;
 
 class AmoWebHookHandlerFactory
 {

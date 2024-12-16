@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Console\Command;
+namespace Sync\Console\Command;
 
-use App\Console\Workers\WebhookQueueWorker;
 use Exception;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
@@ -14,14 +13,24 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Sync\Console\Workers\WebhookQueueWorker;
 
 use const PHP_EOL;
 
 class WebhookQueueWorkerCommand extends Command
 {
-    /** @var string  */
+    /**
+     * Команда на запуск воркера
+     *
+     * Выполняется из контейнера application-backend
+     *
+     * ``vendor/bin/laminas app:webhook-queue-worker``
+     *
+     * @var string
+     */
     protected static $defaultName = 'app:webhook-queue-worker';
 
+    /** @var ContainerInterface Контейнер с зависимостями */
     private ContainerInterface $container;
 
     public function __construct(ContainerInterface $container)
@@ -30,9 +39,7 @@ class WebhookQueueWorkerCommand extends Command
         $this->container = $container;
     }
 
-    /**
-     * Задает параметры команды
-     */
+    /** Задает параметры команды */
     protected function configure(): void
     {
         $this->setName(self::$defaultName);

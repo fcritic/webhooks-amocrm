@@ -2,20 +2,22 @@
 
 declare(strict_types=1);
 
-namespace App\Factory;
+namespace Sync\Factory;
 
-use App\config\BeanstalkConfig;
-use App\Console\Workers\WebhookQueueWorker;
 use App\Entity\ErrorEntity;
 use App\Entity\WebhookEntity;
 use App\Helper\DatabaseConnection;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Sync\config\BeanstalkConfig;
+use Sync\Console\Workers\WebhookQueueWorker;
 
 class WebhookQueueWorkerFactory
 {
     /**
+     * Фабрика для воркера. Отдает сущности для их создания в БД и конфиг для работы с очередями
+     *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */

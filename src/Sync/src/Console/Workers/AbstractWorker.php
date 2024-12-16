@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Console\Workers;
+namespace Sync\Console\Workers;
 
-use App\config\BeanstalkConfig;
 use Pheanstalk\Contract\PheanstalkInterface;
 use Pheanstalk\Job;
 use Pheanstalk\Pheanstalk;
 use Symfony\Component\Console\Output\OutputInterface;
+use Sync\config\BeanstalkConfig;
 use Throwable;
 
 use function json_decode;
@@ -24,15 +24,20 @@ abstract class AbstractWorker
     /** @var string Просматриваемая очередь */
     protected string $queue = 'default';
 
-    /**
-     * Constructor AbstractWorker
-     */
+    /** Constructor AbstractWorker */
     public function __construct(BeanstalkConfig $beanstalk)
     {
         $this->connection = $beanstalk->getConnection();
     }
 
-    /** Вызов через CLI */
+    /**
+     * Вызов через CLI
+     *
+     * Тут -> конектимся с сервером очередей
+     * -> Просматриваем только текущею очередь
+     * -> Игнорируем дефолтную очередь
+     * -> Ожидаем задачи в очередь
+     */
     public function execute(OutputInterface $output): void
     {
         while (
@@ -48,8 +53,6 @@ abstract class AbstractWorker
                         512,
                         JSON_THROW_ON_ERROR
                     ), $output);
-
-//                sleep(1);
             } catch (Throwable $e) {
                 $this->handleException($e, $job);
             }

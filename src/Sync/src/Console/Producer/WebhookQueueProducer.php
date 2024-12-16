@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Console\Producer;
+namespace Sync\Console\Producer;
 
-use App\config\BeanstalkConfig;
 use JsonException;
 use Pheanstalk\Pheanstalk;
+use Psr\Http\Message\ServerRequestInterface;
+use Sync\config\BeanstalkConfig;
 
 use function json_encode;
 
@@ -14,24 +15,25 @@ use const JSON_THROW_ON_ERROR;
 
 class WebhookQueueProducer
 {
-    private Pheanstalk $connection;
+    /** @var Pheanstalk|null Коннект с сервером очередей */
+    private ?Pheanstalk $connection;
+
+    /** @var string Просматриваемая очередь */
     private string $queue = 'webhooks';
 
+    /** Конструктор WebhookQueueProducer */
     public function __construct(BeanstalkConfig $beanstalk)
     {
         $this->connection = $beanstalk->getConnection();
     }
 
     /**
+     * Продюсер вызывается в хендлере и отправляет задачи в только в указанную очередь.
+     *
      * @throws JsonException
      */
-    public function produce(array $webhook, string $headers): void
+    public function produce(array $data): void
     {
-        $data = [
-            'webhook' => $webhook,
-            'headers' => $headers,
-        ];
-
         $this->connection
             ->useTube($this->queue)
             ->put(json_encode($data, JSON_THROW_ON_ERROR));

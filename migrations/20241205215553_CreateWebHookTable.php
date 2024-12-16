@@ -8,9 +8,7 @@ use Phpmig\Migration\Migration;
 
 class CreateWebHookTable extends Migration
 {
-    /**
-     * Выполните миграцию
-     */
+    /** Выполните миграцию */
     public function up(): void
     {
         Capsule::schema()->create('webhook', function (Blueprint $table) {
@@ -26,9 +24,7 @@ class CreateWebHookTable extends Migration
         });
     }
 
-    /**
-     * Откат миграции
-     */
+    /** Откат миграции */
     public function down(): void
     {
         Capsule::schema()->dropIfExists('webhook');

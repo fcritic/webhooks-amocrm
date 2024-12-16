@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Console\Workers;
+namespace Sync\Console\Workers;
 
-use App\config\BeanstalkConfig;
 use App\Entity\ErrorEntity;
 use App\Entity\WebhookEntity;
-use App\Helper\ValidatorWebHook;
 use Exception;
 use JsonException;
 use Symfony\Component\Console\Output\OutputInterface;
+use Sync\config\BeanstalkConfig;
+use Sync\Helper\ValidatorWebHook;
 
 use function date;
 use function json_encode;
@@ -20,10 +20,12 @@ use const PHP_EOL;
 
 class WebhookQueueWorker extends AbstractWorker
 {
+    /** @var string Просматриваемая очередь */
     protected string $queue = 'webhooks';
     private WebhookEntity $webhook;
     private ErrorEntity $error;
 
+    /** Конструктор WebhookQueueWorker */
     public function __construct(BeanstalkConfig $beanstalk, WebhookEntity $webhook, ErrorEntity $error)
     {
         parent::__construct($beanstalk);
@@ -32,6 +34,10 @@ class WebhookQueueWorker extends AbstractWorker
     }
 
     /**
+     * Получает из опереди полный хук и валидирут его по заголовку и общей модели, в данном случае message.
+     * В случае если хук не прошел валидацию, то сохраняется в отдельной таблицы. Тут можно отправлять данный хук
+     * в логи и отдавать исключение
+     *
      * @throws JsonException
      */
     public function process(mixed $data, OutputInterface $output): void
