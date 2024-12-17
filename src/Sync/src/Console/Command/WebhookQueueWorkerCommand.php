@@ -24,11 +24,11 @@ class WebhookQueueWorkerCommand extends Command
      *
      * Выполняется из контейнера application-backend
      *
-     * ``vendor/bin/laminas app:webhook-queue-worker``
+     * ``vendor/bin/laminas sync:webhook-queue-worker``
      *
      * @var string
      */
-    protected static $defaultName = 'app:webhook-queue-worker';
+    protected static $defaultName = 'sync:webhook-queue-worker';
 
     /** @var ContainerInterface Контейнер с зависимостями */
     private ContainerInterface $container;

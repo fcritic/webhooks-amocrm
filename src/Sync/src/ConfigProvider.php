@@ -14,7 +14,7 @@ use Sync\Console\Workers\WebhookQueueWorker;
 use Sync\Factory\WebhookQueueWorkerFactory;
 
 /**
- * The configuration provider for the App module
+ * The configuration provider for the Sync module
  *
  * @see https://docs.laminas.dev/laminas-component-installer/
  */
@@ -59,7 +59,7 @@ class ConfigProvider
     {
         return [
             'commands' => [
-                'app:webhook-queue-worker' => WebhookQueueWorkerCommand::class,
+                'sync:webhook-queue-worker' => WebhookQueueWorkerCommand::class,
             ],
         ];
     }
